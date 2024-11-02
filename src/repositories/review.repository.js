@@ -4,6 +4,14 @@ export const addReview = async (data) => {
   const conn = await pool.getConnection();
 
   try {
+    const [existingStore] = await pool.query(
+      `SELECT * FROM store WHERE id = ?;`,
+      [data.store_id]
+    );
+    if (!existingStore) {
+      throw new Error("존재하지 않는 가게입니다.");
+    }
+
     const [existingReviews] = await pool.query(
       `SELECT * FROM review WHERE member_id = ? AND store_id = ?;`,
       [data.member_id, data.store_id]
