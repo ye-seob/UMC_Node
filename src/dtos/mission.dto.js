@@ -8,6 +8,13 @@ export const bodyToMission = (body, store_id) => {
   };
 };
 
+export const bodyToMember_mission = (body) => {
+  return {
+    member_id: body.member_id,
+    mission_id: body.mission_id,
+  };
+};
+
 export const responseFromMission = (mission) => {
   return {
     mission,
