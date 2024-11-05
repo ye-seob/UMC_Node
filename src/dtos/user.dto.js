@@ -1,22 +1,26 @@
 //signUp Request Dto
 export const bodyToUser = (body) => {
-  const birth = new Date(body.birth);
-
   return {
     email: body.email,
     password: body.password,
     name: body.name,
+    age: body.age,
     gender: body.gender,
-    birth: birth,
     address: body.address || "",
     detailAddress: body.detailAddress || "",
     phoneNumber: body.phoneNumber,
     preferences: body.preferences,
+    point: body.point,
   };
 };
-export const responseFromUser = (user, preferences) => {
+export const responseFromUser = ({ user, preferences }) => {
+  const preferFoods = preferences.map(
+    (preference) => preference.foodCategory.name
+  );
+
   return {
-    user,
-    preferences,
+    email: user.email,
+    name: user.name,
+    preferCategory: preferFoods,
   };
 };
