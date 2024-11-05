@@ -13,6 +13,5 @@ export const storeAdd = async (data) => {
   }
 
   const store = await getStore(addStoreId);
-
   return responseFromStore({ store });
 };

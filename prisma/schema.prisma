@@ -51,3 +51,24 @@ model UserFavorCategory {
   @@index([userId], map: "user_id")
   @@map("user_favor_category")
 }
+
+model Store{
+  id             Int      @id @default(autoincrement())
+  regionId      Int       @map("region_id")
+  region         Region   @relation(fields: [regionId], references: [id]) 
+  name           String   @db.VarChar(20)
+  address        String   @db.VarChar(40)
+  score          Int      @default(0)
+  createdAt      DateTime @map("created_at") @db.DateTime(6) @default(now())
+  updatedAt      DateTime @map("updated_at") @db.DateTime(6) @default(now())
+  
+  @@map("store")
+}
+
+model Region{
+  id             Int      @id @default(autoincrement())
+  name           String   @db.VarChar(20)
+  stores         Store[]
+
+  @@map("region")
+}
