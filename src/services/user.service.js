@@ -10,13 +10,14 @@ export const userSignUp = async (data) => {
   const joinUserId = await addUser({
     email: data.email,
     name: data.name,
+    age: data.age,
     gender: data.gender,
-    birth: data.birth,
     address: data.address,
     detailAddress: data.detailAddress,
     phoneNumber: data.phoneNumber,
+    point: data.point,
   });
-
+  console.log(joinUserId);
   if (joinUserId === null) {
     throw new Error("이미 존재하는 이메일입니다.");
   }
