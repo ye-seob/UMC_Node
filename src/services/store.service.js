@@ -1,5 +1,9 @@
-import { responseFromStore } from "../dtos/store.dto.js";
-import { addStore, getStore } from "../repositories/store.repository.js";
+import { responseFromReviews, responseFromStore } from "../dtos/store.dto.js";
+import {
+  addStore,
+  getAllStoreReviews,
+  getStore,
+} from "../repositories/store.repository.js";
 
 export const storeAdd = async (data) => {
   const addStoreId = await addStore({
@@ -14,4 +18,8 @@ export const storeAdd = async (data) => {
 
   const store = await getStore(addStoreId);
   return responseFromStore({ store });
+};
+export const listStoreReviews = async (storeId) => {
+  const reviews = await getAllStoreReviews(storeId);
+  return responseFromReviews(reviews);
 };
