@@ -1,6 +1,8 @@
+import { responseFromMission } from "../dtos/mission.dto.js";
 import { responseFromReviews, responseFromStore } from "../dtos/store.dto.js";
 import {
   addStore,
+  getAllStoreMissions,
   getAllStoreReviews,
   getStore,
 } from "../repositories/store.repository.js";
@@ -22,4 +24,8 @@ export const storeAdd = async (data) => {
 export const listStoreReviews = async (storeId, cursor) => {
   const reviews = await getAllStoreReviews(storeId, cursor);
   return responseFromReviews(reviews);
+};
+export const listStoreMissions = async (storeId, cursor) => {
+  const missions = await getAllStoreMissions(storeId, cursor);
+  return responseFromMission(missions);
 };

@@ -6,6 +6,7 @@ import {
   handleUserSignUp,
 } from "./controllers/user.controller.js";
 import {
+  handleListStoreMissions,
   handleListStoreReviews,
   handleStoreAdd,
 } from "./controllers/store.contorller.js";
@@ -35,6 +36,7 @@ app.post("/api/v1/reviews", handleReviewAdd);
 app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
 app.post("/api/v1/users/missions/start", handleMissionStart);
 app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
+app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
 app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

@@ -44,3 +44,18 @@ export const getAllStoreReviews = async (storeId, cursor) => {
 
   return reviews;
 };
+export const getAllStoreMissions = async (storeId, cursor) => {
+  const missions = await prisma.mission.findMany({
+    select: {
+      id: true,
+      reward: true,
+      missionSpec: true,
+      deadline: true,
+    },
+    where: { storeId: storeId, id: { gt: cursor } },
+    orderBy: { id: "asc" },
+    take: 5,
+  });
+
+  return missions;
+};

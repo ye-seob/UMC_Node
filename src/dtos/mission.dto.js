@@ -15,8 +15,11 @@ export const bodyToUser_mission = (body) => {
   };
 };
 
-export const responseFromMission = (mission) => {
+export const responseFromMission = (missions) => {
   return {
-    mission,
+    data: missions,
+    pagination: {
+      cursor: missions.length ? missions[missions.length - 1].id : null,
+    },
   };
 };
