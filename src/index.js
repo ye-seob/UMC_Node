@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleStoreAdd } from "./controllers/store.contorller.js";
 import { handleReviewAdd } from "./controllers/review.controller.js";
