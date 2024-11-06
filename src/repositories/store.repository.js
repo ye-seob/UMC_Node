@@ -1,4 +1,4 @@
-import { pool, prisma } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 // 가게 데이터 삽입
 export const addStore = async (data) => {

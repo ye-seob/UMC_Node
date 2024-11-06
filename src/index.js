@@ -1,4 +1,3 @@
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
@@ -30,5 +29,5 @@ app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
 app.post("/api/v1/users/missions/start", handleMissionStart);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`listening on port ${port}`);
 });
