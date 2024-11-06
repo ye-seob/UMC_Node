@@ -19,7 +19,7 @@ export const missionAdd = async (data) => {
 };
 export const missionStart = async (data) => {
   const startMissionId = await startMission({
-    member_id: data.member_id,
+    user_id: data.user_id,
     mission_id: data.mission_id,
   });
 

@@ -29,6 +29,7 @@ model User {
   point          Int      @default(0)
   favoriteCategories  UserFavorCategory[] 
   reviews Review[]
+  UserMissions UserMission[]
   @@map("user")
 }
 
@@ -98,5 +99,20 @@ model Mission{
   createdAt      DateTime @map("created_at") @db.DateTime(6) @default(now())
   updatadAt      DateTime @map("updated_at") @db.DateTime(6) @default(now())
   @@map("mission")
+
+  UserMissions UserMission[]
   
+}
+
+model UserMission{
+    id             Int      @id @default(autoincrement())
+  mission          Mission    @relation(fields: [missionId], references: [id])
+  missionId         Int       @map("mission_id")
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @map("user_id")
+  status   String        @db.VarChar(100)
+  createdAt      DateTime @map("created_at") @db.DateTime(6) @default(now())
+  updatadAt      DateTime @map("updated_at") @db.DateTime(6) @default(now())
+  @@map("user_mission")
+
 }
