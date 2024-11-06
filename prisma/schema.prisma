@@ -93,10 +93,10 @@ model Mission{
   store          Store    @relation(fields: [storeId], references: [id])
   storeId         Int       @map("store_id")
   reward           Int     
-   missionSpec   String    @map("mission_spec") @db.VarChar(100)
-   deadline      DateTime @db.DateTime(6) 
+  missionSpec   String    @map("mission_spec") @db.VarChar(100)
+  deadline      DateTime @db.DateTime(6) 
   createdAt      DateTime @map("created_at") @db.DateTime(6) @default(now())
-updataedAt      DateTime @map("updataed_at") @db.DateTime(6) @default(now())
+  updatadAt      DateTime @map("updated_at") @db.DateTime(6) @default(now())
   @@map("mission")
   
 }
