@@ -1,6 +1,6 @@
 export const bodyToReview = (body) => {
   return {
-    member_id: body.member_id,
+    user_id: body.user_id,
     store_id: body.store_id,
     body: body.body,
     score: body.score,
