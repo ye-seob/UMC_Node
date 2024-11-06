@@ -1,6 +1,7 @@
-import { responseFromUser } from "../dtos/user.dto.js";
+import { responseFromReviews, responseFromUser } from "../dtos/user.dto.js";
 import {
   addUser,
+  getAllUserReviews,
   getUser,
   getUserPreferencesByUserId,
   setPreference,
@@ -30,4 +31,8 @@ export const userSignUp = async (data) => {
   const preferences = await getUserPreferencesByUserId(joinUserId);
 
   return responseFromUser({ user, preferences });
+};
+export const listUserReviews = async (userId, cursor) => {
+  const reviews = await getAllUserReviews(userId, cursor);
+  return responseFromReviews(reviews);
 };

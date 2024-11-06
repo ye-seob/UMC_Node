@@ -46,3 +46,13 @@ export const getUserPreferencesByUserId = async (userId) => {
 
   return preferences;
 };
+export const getAllUserReviews = async (userId, cursor) => {
+  const reviews = await prisma.review.findMany({
+    select: { id: true, body: true, store: true, user: true },
+    where: { userId: userId, id: { gt: cursor } },
+    orderBy: { id: "asc" },
+    take: 5,
+  });
+
+  return reviews;
+};

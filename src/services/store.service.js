@@ -19,7 +19,7 @@ export const storeAdd = async (data) => {
   const store = await getStore(addStoreId);
   return responseFromStore({ store });
 };
-export const listStoreReviews = async (storeId) => {
-  const reviews = await getAllStoreReviews(storeId);
+export const listStoreReviews = async (storeId, cursor) => {
+  const reviews = await getAllStoreReviews(storeId, cursor);
   return responseFromReviews(reviews);
 };
