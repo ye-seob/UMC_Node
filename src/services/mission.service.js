@@ -1,6 +1,7 @@
 import { responseFromMission } from "../dtos/mission.dto.js";
 import {
   addMission,
+  completeMission,
   getMission,
   startMission,
 } from "../repositories/mission.repository.js";
@@ -24,6 +25,17 @@ export const missionStart = async (data) => {
   });
 
   const mission = await getMission(startMissionId);
+
+  return responseFromMission({ mission });
+};
+
+export const missionComplete = async (data) => {
+  const completeMissionId = await completeMission({
+    user_id: data.user_id,
+    mission_id: data.mission_id,
+  });
+
+  const mission = await getMission(completeMissionId);
 
   return responseFromMission({ mission });
 };
