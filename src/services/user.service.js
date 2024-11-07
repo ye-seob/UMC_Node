@@ -1,6 +1,8 @@
+import { responseFromMission } from "../dtos/mission.dto.js";
 import { responseFromReviews, responseFromUser } from "../dtos/user.dto.js";
 import {
   addUser,
+  getAllUserMissions,
   getAllUserReviews,
   getUser,
   getUserPreferencesByUserId,
@@ -35,4 +37,8 @@ export const userSignUp = async (data) => {
 export const listUserReviews = async (userId, cursor) => {
   const reviews = await getAllUserReviews(userId, cursor);
   return responseFromReviews(reviews);
+};
+export const listUserMissions = async (userId, cursor) => {
+  const missions = await getAllUserMissions(userId, cursor);
+  return responseFromMission(missions);
 };
