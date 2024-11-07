@@ -56,3 +56,33 @@ export const startMission = async (data) => {
 
   return created.id;
 };
+
+export const completeMission = async (data) => {
+  const mission = await getMission(data.mission_id);
+  if (!mission) {
+    throw new Error("존재하지 않는 미션입니다.");
+  }
+  //진행중인 미션인지 먼저 확인
+  const userMission = await prisma.userMission.findFirst({
+    where: {
+      userId: data.user_id,
+      missionId: data.mission_id,
+    },
+  });
+  if (userMission.status !== "진행중") {
+    throw new Error("미션이 진행 중인 상태가 아닙니다.");
+  }
+
+  //추후에 미션을 제대로 완료 했는지 검사해야함
+
+  const updated = await prisma.userMission.update({
+    where: {
+      id: userMission.id,
+    },
+    data: {
+      status: "완료",
+    },
+  });
+
+  return updated.id;
+};

@@ -14,6 +14,7 @@ import {
 import { handleReviewAdd } from "./controllers/review.controller.js";
 import {
   handleMissionAdd,
+  handleMissionComplete,
   handleMissionStart,
 } from "./controllers/mission.controller.js";
 
@@ -36,10 +37,12 @@ app.post("/api/v1/stores", handleStoreAdd);
 app.post("/api/v1/reviews", handleReviewAdd);
 app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
 app.post("/api/v1/users/missions/start", handleMissionStart);
+app.post("/api/v1/users/missions/complete", handleMissionComplete);
 app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
 app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
 app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
 app.get("/api/v1/users/:userId/missions", handleListUserMissions);
+
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
