@@ -1,6 +1,10 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToUser } from "../dtos/user.dto.js";
-import { userSignUp } from "../services/user.service.js";
+import {
+  listUserMissions,
+  listUserReviews,
+  userSignUp,
+} from "../services/user.service.js";
 
 export const handleUserSignUp = async (req, res, next) => {
   console.log("회원가입을 요청했습니다!");
@@ -8,4 +12,18 @@ export const handleUserSignUp = async (req, res, next) => {
 
   const user = await userSignUp(bodyToUser(req.body));
   res.status(StatusCodes.OK).json({ result: user });
+};
+export const handleListUserReviews = async (req, res, next) => {
+  const reviews = await listUserReviews(
+    parseInt(req.params.userId),
+    typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
+  );
+  res.status(StatusCodes.OK).json({ result: reviews });
+};
+export const handleListUserMissions = async (req, res, next) => {
+  const missions = await listUserMissions(
+    parseInt(req.params.userId),
+    typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
+  );
+  res.status(StatusCodes.OK).json({ result: missions });
 };

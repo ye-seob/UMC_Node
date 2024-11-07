@@ -1,8 +1,16 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import { handleUserSignUp } from "./controllers/user.controller.js";
-import { handleStoreAdd } from "./controllers/store.contorller.js";
+import {
+  handleListUserMissions,
+  handleListUserReviews,
+  handleUserSignUp,
+} from "./controllers/user.controller.js";
+import {
+  handleListStoreMissions,
+  handleListStoreReviews,
+  handleStoreAdd,
+} from "./controllers/store.contorller.js";
 import { handleReviewAdd } from "./controllers/review.controller.js";
 import {
   handleMissionAdd,
@@ -28,7 +36,10 @@ app.post("/api/v1/stores", handleStoreAdd);
 app.post("/api/v1/reviews", handleReviewAdd);
 app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
 app.post("/api/v1/users/missions/start", handleMissionStart);
-
+app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
+app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
+app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
+app.get("/api/v1/users/:userId/missions", handleListUserMissions);
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });

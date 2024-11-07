@@ -46,3 +46,35 @@ export const getUserPreferencesByUserId = async (userId) => {
 
   return preferences;
 };
+export const getAllUserReviews = async (userId, cursor) => {
+  const reviews = await prisma.review.findMany({
+    select: { id: true, body: true, store: true, user: true },
+    where: { userId: userId, id: { gt: cursor } },
+    orderBy: { id: "asc" },
+    take: 5,
+  });
+
+  return reviews;
+};
+
+export const getAllUserMissions = async (userId, cursor) => {
+  const missions = await prisma.userMission.findMany({
+    select: {
+      id: true,
+      status: true,
+      mission: {
+        select: {
+          id: true,
+          reward: true,
+          missionSpec: true,
+          deadline: true,
+        },
+      },
+    },
+    where: { userId: userId, id: { gt: cursor } },
+    orderBy: { id: "asc" },
+    take: 5,
+  });
+
+  return missions;
+};
