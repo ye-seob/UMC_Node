@@ -22,14 +22,9 @@ export const addStore = async (data) => {
 
 // 가게 정보 얻기
 export const getStore = async (storeId) => {
-  if (!storeId) {
-    throw Error("storeId is null!");
-  }
-  const store = await prisma.store.findFirstOrThrow({
+  const store = await prisma.store.findFirst({
     where: { id: storeId },
   });
-
-  console.log(store);
 
   return store;
 };
