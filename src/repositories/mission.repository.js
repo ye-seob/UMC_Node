@@ -16,7 +16,7 @@ export const addMission = async (data) => {
   });
 
   if (mission) {
-    throw new GenericUserError("동일 미션이 존재합니다", mission);
+    throw new GenericUserError("동일 미션이 존재합니다", data.store_id);
   }
   const created = await prisma.mission.create({
     data: {
