@@ -1,11 +1,18 @@
 import { prisma } from "../db.config.js";
+import { NotFoundError } from "../error.js";
 
 // 가게 데이터 삽입
 export const addStore = async (data) => {
+  const region = await prisma.region.findFirst({
+    where: { id: data.region_id },
+  });
+
+  if (!region) {
+    throw new NotFoundError("지원하지 않는 지역입니다", data.region_id);
+  }
   const store = await prisma.store.findFirst({
     where: { name: data.name, regionId: data.region_id },
   });
-
   if (store) {
     return null;
   }
@@ -22,15 +29,9 @@ export const addStore = async (data) => {
 
 // 가게 정보 얻기
 export const getStore = async (storeId) => {
-  if (!storeId) {
-    throw Error("storeId is null!");
-  }
-  const store = await prisma.store.findFirstOrThrow({
+  const store = await prisma.store.findFirst({
     where: { id: storeId },
   });
-
-  console.log(store);
-
   return store;
 };
 

@@ -1,5 +1,6 @@
 import { responseFromMission } from "../dtos/mission.dto.js";
 import { responseFromReviews, responseFromUser } from "../dtos/user.dto.js";
+import { GenericUserError } from "../error.js";
 import {
   addUser,
   getAllUserMissions,
@@ -20,9 +21,9 @@ export const userSignUp = async (data) => {
     phoneNumber: data.phoneNumber,
     point: data.point,
   });
-  console.log(joinUserId);
-  if (joinUserId === null) {
-    throw new Error("이미 존재하는 이메일입니다.");
+
+  if (!joinUserId) {
+    throw new GenericUserError("이미 존재하는 이메일입니다.", data.email);
   }
 
   for (const preference of data.preferences) {

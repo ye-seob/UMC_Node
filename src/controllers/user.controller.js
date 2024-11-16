@@ -8,22 +8,35 @@ import {
 
 export const handleUserSignUp = async (req, res, next) => {
   console.log("회원가입을 요청했습니다!");
-  console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
 
-  const user = await userSignUp(bodyToUser(req.body));
-  res.status(StatusCodes.OK).json({ result: user });
+  try {
+    const user = await userSignUp(bodyToUser(req.body));
+    res.status(StatusCodes.OK).success(user);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+  }
 };
 export const handleListUserReviews = async (req, res, next) => {
-  const reviews = await listUserReviews(
-    parseInt(req.params.userId),
-    typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
-  );
-  res.status(StatusCodes.OK).json({ result: reviews });
+  console.log("유저 리뷰 목록 조회를 요청하였습니다.");
+  try {
+    const reviews = await listUserReviews(
+      parseInt(req.params.userId),
+      typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
+    );
+    res.status(StatusCodes.OK).success(reviews);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+  }
 };
 export const handleListUserMissions = async (req, res, next) => {
-  const missions = await listUserMissions(
-    parseInt(req.params.userId),
-    typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
-  );
-  res.status(StatusCodes.OK).json({ result: missions });
+  console.log("유저 미션 목록 조회를 요청하였습니다.");
+  try {
+    const missions = await listUserMissions(
+      parseInt(req.params.userId),
+      typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
+    );
+    res.status(StatusCodes.OK).success(missions);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+  }
 };

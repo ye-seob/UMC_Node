@@ -18,6 +18,7 @@ export const missionAdd = async (data) => {
 
   return responseFromMission({ mission });
 };
+
 export const missionStart = async (data) => {
   const startMissionId = await startMission({
     user_id: data.user_id,
