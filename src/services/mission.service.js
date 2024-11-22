@@ -3,6 +3,7 @@ import {
   addMission,
   completeMission,
   getMission,
+  getUserMission,
   startMission,
 } from "../repositories/mission.repository.js";
 
@@ -25,7 +26,7 @@ export const missionStart = async (data) => {
     mission_id: data.mission_id,
   });
 
-  const mission = await getMission(startMissionId);
+  const mission = await getUserMission(startMissionId);
 
   return responseFromMission({ mission });
 };

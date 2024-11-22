@@ -38,6 +38,16 @@ export const getMission = async (MissionId) => {
   return mission;
 };
 
+export const getUserMission = async (MissionId) => {
+  const mission = await prisma.userMission.findFirst({
+    where: {
+      id: MissionId,
+    },
+  });
+
+  return mission;
+};
+
 export const startMission = async (data) => {
   const mission = await getMission(data.mission_id);
 
