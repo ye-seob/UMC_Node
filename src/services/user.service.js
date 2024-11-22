@@ -1,6 +1,6 @@
 import { responseFromMission } from "../dtos/mission.dto.js";
 import { responseFromReviews, responseFromUser } from "../dtos/user.dto.js";
-import { GenericUserError } from "../error.js";
+import { GenericUserError, NotFoundError } from "../error.js";
 import {
   addUser,
   getAllUserMissions,
@@ -36,10 +36,20 @@ export const userSignUp = async (data) => {
   return responseFromUser({ user, preferences });
 };
 export const listUserReviews = async (userId, cursor) => {
+  const user = await getUser(userId);
+
+  if (!user) {
+    throw new NotFoundError("존재하지 않는 유저입니다", userId);
+  }
   const reviews = await getAllUserReviews(userId, cursor);
   return responseFromReviews(reviews);
 };
 export const listUserMissions = async (userId, cursor) => {
+  const user = await getUser(userId);
+
+  if (!user) {
+    throw new NotFoundError("존재하지 않는 유저입니다", userId);
+  }
   const missions = await getAllUserMissions(userId, cursor);
   return responseFromMission(missions);
 };
