@@ -1,6 +1,4 @@
 import { prisma } from "../db.config.js";
-import { GenericUserError, NotFoundError } from "../error.js";
-import { getStoreById } from "./store.repository.js";
 
 export const addMission = async (data) => {
   const created = await prisma.mission.create({

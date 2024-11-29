@@ -1,6 +1,4 @@
 import { prisma } from "../db.config.js";
-import { NotFoundError, GenericUserError } from "../error.js";
-import { getStoreById } from "../repositories/store.repository.js";
 
 export const addReview = async (data) => {
   const created = await prisma.review.create({
