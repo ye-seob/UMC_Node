@@ -1,17 +1,17 @@
 import { responseFromMission } from "../dtos/mission.dto.js";
 import { responseFromReviews, responseFromUser } from "../dtos/user.dto.js";
-import { GenericUserError, NotFoundError } from "../error.js";
+import { AlreadyExistError, NotFoundError } from "../error.js";
 import {
   addUser,
   getAllUserMissions,
   getAllUserReviews,
-  getUser,
-  getUserPreferencesByUserId,
+  getUserById,
+  getUserPreferencesById,
   setPreference,
   updateUser,
 } from "../repositories/user.repository.js";
 
-export const userSignUp = async (data) => {
+export const userSignup = async (data) => {
   const joinUserId = await addUser({
     email: data.email,
     name: data.name,
@@ -24,20 +24,20 @@ export const userSignUp = async (data) => {
   });
 
   if (!joinUserId) {
-    throw new GenericUserError("이미 존재하는 이메일입니다.", data.email);
+    throw new AlreadyExistError("이미 존재하는 이메일입니다.", data.email);
   }
 
   for (const preference of data.preferences) {
     await setPreference(joinUserId, preference);
   }
 
-  const user = await getUser(joinUserId);
-  const preferences = await getUserPreferencesByUserId(joinUserId);
+  const user = await getUserById(joinUserId);
+  const preferences = await getUserPreferencesById(joinUserId);
 
   return responseFromUser({ user, preferences });
 };
 export const listUserReviews = async (userId, cursor) => {
-  const user = await getUser(userId);
+  const user = await getUserById(userId);
 
   if (!user) {
     throw new NotFoundError("존재하지 않는 유저입니다", userId);
@@ -46,7 +46,7 @@ export const listUserReviews = async (userId, cursor) => {
   return responseFromReviews(reviews);
 };
 export const listUserMissions = async (userId, cursor) => {
-  const user = await getUser(userId);
+  const user = await getUserById(userId);
 
   if (!user) {
     throw new NotFoundError("존재하지 않는 유저입니다", userId);
@@ -56,7 +56,6 @@ export const listUserMissions = async (userId, cursor) => {
 };
 
 export const userUpdate = async (data, email) => {
-  console.log(email);
   const updataeUserId = await updateUser(
     {
       name: data.name,
@@ -74,7 +73,7 @@ export const userUpdate = async (data, email) => {
     throw new NotFoundError("가입되지 않은 유저입니다");
   }
 
-  const user = await getUser(updataeUserId);
+  const user = await getUserById(updataeUserId);
 
-  return user;
+  return responseFromUser(user);
 };

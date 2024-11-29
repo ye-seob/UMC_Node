@@ -13,10 +13,8 @@ export const addUser = async (data) => {
 };
 
 // 사용자 정보 얻기
-export const getUser = async (userId) => {
+export const getUserById = async (userId) => {
   const user = await prisma.user.findFirst({ where: { id: userId } });
-
-  console.log(user);
 
   return user;
 };
@@ -32,7 +30,7 @@ export const setPreference = async (userId, foodCategoryId) => {
 };
 
 // 사용자 선호 카테고리 반환
-export const getUserPreferencesByUserId = async (userId) => {
+export const getUserPreferencesById = async (userId) => {
   const preferences = await prisma.userFavorCategory.findMany({
     select: {
       id: true,
