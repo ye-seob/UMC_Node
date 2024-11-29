@@ -8,6 +8,7 @@ import {
   getUser,
   getUserPreferencesByUserId,
   setPreference,
+  updateUser,
 } from "../repositories/user.repository.js";
 
 export const userSignUp = async (data) => {
@@ -52,4 +53,28 @@ export const listUserMissions = async (userId, cursor) => {
   }
   const missions = await getAllUserMissions(userId, cursor);
   return responseFromMission(missions);
+};
+
+export const userUpdate = async (data, email) => {
+  console.log(email);
+  const updataeUserId = await updateUser(
+    {
+      name: data.name,
+      age: data.age,
+      gender: data.gender,
+      address: data.address,
+      detailAddress: data.detailAddress,
+      phoneNumber: data.phoneNumber,
+      point: data.point,
+    },
+    email
+  );
+
+  if (!updataeUserId) {
+    throw new NotFoundError("가입되지 않은 유저입니다");
+  }
+
+  const user = await getUser(updataeUserId);
+
+  return user;
 };
