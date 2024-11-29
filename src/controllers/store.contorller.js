@@ -3,12 +3,11 @@ import { bodyToStore } from "../dtos/store.dto.js";
 import {
   listStoreMissions,
   listStoreReviews,
-  storeAdd,
+  registerStore,
 } from "../services/store.service.js";
 
-export const handleStoreAdd = async (req, res, next) => {
-  /*
-  #swagger.summary = '상점 추가 API';
+export const handleAddStore = async (req, res, next) => {
+  /* #swagger.summary = '상점 추가 API';
   #swagger.requestBody = {
     required: true,
     content: {
@@ -82,10 +81,11 @@ export const handleStoreAdd = async (req, res, next) => {
   try {
     console.log("가게 추가를 요청했습니다!");
 
-    const store = await storeAdd(bodyToStore(req.body));
+    const store = await registerStore(bodyToStore(req.body));
     res.status(StatusCodes.OK).success(store);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 export const handleListStoreReviews = async (req, res, next) => {
@@ -132,7 +132,8 @@ export const handleListStoreReviews = async (req, res, next) => {
     );
     res.status(StatusCodes.OK).success(reviews);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 
@@ -224,6 +225,7 @@ export const handleListStoreMissions = async (req, res, next) => {
     );
     res.status(StatusCodes.OK).success(missions);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };

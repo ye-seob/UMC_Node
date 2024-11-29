@@ -1,9 +1,9 @@
 import { prisma } from "../db.config.js";
 import { NotFoundError, GenericUserError } from "../error.js";
-import { getStore } from "../repositories/store.repository.js";
+import { getStoreById } from "../repositories/store.repository.js";
 
 export const addReview = async (data) => {
-  const store = await getStore(data.store_id);
+  const store = await getStoreById(data.store_id);
 
   if (!store) {
     throw new NotFoundError("존재하지 않는 가게입니다.", data.store_id);
