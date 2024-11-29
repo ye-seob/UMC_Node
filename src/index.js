@@ -2,37 +2,17 @@ import dotenv from "dotenv";
 
 import express from "express";
 import cors from "cors";
-import {
-  handleListUserMissions,
-  handleListUserReviews,
-  handleUserSignUp,
-  handleUserUpdate,
-} from "./controllers/user.controller.js";
-import {
-  handleListStoreMissions,
-  handleListStoreReviews,
-  handleStoreAdd,
-} from "./controllers/store.contorller.js";
-import { handleReviewAdd } from "./controllers/review.controller.js";
-import {
-  handleMissionAdd,
-  handleMissionComplete,
-  handleMissionStart,
-} from "./controllers/mission.controller.js";
-import swaggerAutogen from "swagger-autogen";
-import swaggerUiExpress from "swagger-ui-express";
+
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import session from "express-session";
-import passport from "passport";
-import { googleStrategy, kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
+import session from "express-session";
+
+import mainRouter from "./routes/index.js";
+import authRouter from "./routes/auth.route.js";
+
+import { swaggerConfig } from "./swagger.config.js";
 
 dotenv.config();
-
-passport.use(googleStrategy);
-passport.use(kakaoStrategy);
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 const port = process.env.PORT;
@@ -74,80 +54,11 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use("/api/v1", mainRouter);
+app.use(authRouter);
 
-app.get("/", (req, res) => {
-  console.log(req.user);
-  res.send("Hello World!");
-});
-
-app.post("/api/v1/users/signup", handleUserSignUp);
-app.post("/api/v1/stores", handleStoreAdd);
-app.post("/api/v1/reviews", handleReviewAdd);
-app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
-app.post("/api/v1/users/missions/start", handleMissionStart);
-app.post("/api/v1/users/missions/complete", handleMissionComplete);
-app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
-app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
-app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
-app.get("/api/v1/users/:userId/missions", handleListUserMissions);
-app.put("/api/v1/users/update", handleUserUpdate);
-
-app.get("/oauth2/login/google", passport.authenticate("google"));
-app.get(
-  "/oauth2/callback/google",
-  passport.authenticate("google", {
-    failureRedirect: "/oauth2/login/google",
-    failureMessage: true,
-  }),
-  (req, res) => res.redirect("/")
-);
-
-app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
-
-app.get(
-  "/oauth2/callback/kakao",
-  passport.authenticate("kakao", {
-    failureRedirect: "/",
-    failureMessage: true,
-  }),
-  (req, res) => res.redirect("/")
-);
-
-app.use(
-  "/docs",
-  swaggerUiExpress.serve,
-  swaggerUiExpress.setup(
-    {},
-    {
-      swaggerOptions: {
-        url: "/openapi.json",
-      },
-    }
-  )
-);
-
-app.get("/openapi.json", async (req, res, next) => {
-  // #swagger.ignore = true
-  const options = {
-    openapi: "3.0.0",
-    disableLogs: true,
-    writeOutputFile: false,
-  };
-  const outputFile = "/dev/null"; // 파일 출력은 사용하지 않습니다.
-  const routes = ["./src/index.js"];
-  const doc = {
-    info: {
-      title: "UMC 7th",
-      description: "UMC 7th Node.js 테스트 프로젝트입니다.",
-    },
-    host: "localhost:3000",
-  };
-
-  const result = await swaggerAutogen(options)(outputFile, routes, doc);
-  res.json(result ? result.data : null);
-});
+app.use("/docs", swaggerConfig());
+app.get("/openapi.json", swaggerConfig(true));
 
 app.use((err, req, res, next) => {
   if (res.headersSent) {

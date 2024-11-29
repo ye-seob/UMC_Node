@@ -3,7 +3,7 @@ import { bodyToUser, bodyToUserUpdate } from "../dtos/user.dto.js";
 import {
   listUserMissions,
   listUserReviews,
-  userSignUp,
+  userSignup,
   userUpdate,
 } from "../services/user.service.js";
 
@@ -78,10 +78,11 @@ export const handleUserSignUp = async (req, res, next) => {
   console.log("회원가입을 요청했습니다!");
 
   try {
-    const user = await userSignUp(bodyToUser(req.body));
+    const user = await userSignup(bodyToUser(req.body));
     res.status(StatusCodes.OK).success(user);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 export const handleListUserReviews = async (req, res, next) => {
@@ -200,7 +201,8 @@ export const handleListUserReviews = async (req, res, next) => {
     );
     res.status(StatusCodes.OK).success(reviews);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 export const handleListUserMissions = async (req, res, next) => {
@@ -298,7 +300,8 @@ export const handleListUserMissions = async (req, res, next) => {
     );
     res.status(StatusCodes.OK).success(missions);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 
@@ -310,6 +313,7 @@ export const handleUserUpdate = async (req, res, next) => {
     const user = await userUpdate(bodyToUserUpdate(req.body), email);
     res.status(StatusCodes.OK).success(user);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };

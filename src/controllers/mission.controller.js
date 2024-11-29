@@ -6,7 +6,7 @@ import {
   missionStart,
 } from "../services/mission.service.js";
 
-export const handleMissionAdd = async (req, res, next) => {
+export const handleAddMission = async (req, res, next) => {
   /*
   #swagger.summary = '미션 추가  API';
   #swagger.requestBody = {
@@ -97,7 +97,8 @@ export const handleMissionAdd = async (req, res, next) => {
 
     res.status(StatusCodes.OK).success(mission);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 
@@ -197,14 +198,15 @@ export const handleMissionStart = async (req, res, next) => {
     const mission = await missionStart(bodyToUser_mission(req.body));
     res.status(StatusCodes.OK).success(mission);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
 
 export const handleMissionComplete = async (req, res, next) => {
   /*
-  #swagger.summary = '미션 완료 API';
-  #swagger.requestBody = {
+    #swagger.summary = '미션 완료 API';
+    #swagger.requestBody = {
     required: true,
     content: {
       "application/json": {
@@ -217,8 +219,8 @@ export const handleMissionComplete = async (req, res, next) => {
         }
       }
     }
-  };
-  #swagger.responses[200] = {
+    };
+    #swagger.responses[200] = {
     description: "미션 완료 성공 응답",
     content: {
       "application/json": {
@@ -259,8 +261,8 @@ export const handleMissionComplete = async (req, res, next) => {
         }
       }
     }
-  };
-  #swagger.responses[400] = {
+    };
+    #swagger.responses[400] = {
     description: "미션 완료 실패 응답",
     content: {
       "application/json": {
@@ -291,8 +293,8 @@ export const handleMissionComplete = async (req, res, next) => {
         }
       }
     }
-  };
-*/
+    };
+  */
 
   try {
     console.log("미션 완료를 요청했습니다!");
@@ -300,6 +302,7 @@ export const handleMissionComplete = async (req, res, next) => {
     const mission = await missionComplete(bodyToUser_mission(req.body));
     res.status(StatusCodes.OK).success(mission);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };

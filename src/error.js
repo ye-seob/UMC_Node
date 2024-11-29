@@ -1,5 +1,6 @@
-export class DuplicateUserEmailError extends Error {
-  errorCode = "4001_USER_DUPLICATE";
+export class AlreadyExistError extends Error {
+  errorCode = "ALREADY_EXIST";
+  statusCode = 409;
 
   constructor(reason, data) {
     super(reason);
@@ -17,8 +18,10 @@ export class NotFoundError extends Error {
     this.data = data;
   }
 }
-export class GenericUserError extends Error {
-  errorCode = "U999";
+
+export class InvalidInputError extends Error {
+  errorCode = "INVALID_INPUT";
+  statusCode = 400;
 
   constructor(reason, data) {
     super(reason);
