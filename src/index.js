@@ -2,23 +2,7 @@ import dotenv from "dotenv";
 
 import express from "express";
 import cors from "cors";
-import {
-  handleListUserMissions,
-  handleListUserReviews,
-  handleUserSignUp,
-  handleUserUpdate,
-} from "./controllers/user.controller.js";
-import {
-  handleListStoreMissions,
-  handleListStoreReviews,
-  handleStoreAdd,
-} from "./controllers/store.contorller.js";
-import { handleReviewAdd } from "./controllers/review.controller.js";
-import {
-  handleMissionAdd,
-  handleMissionComplete,
-  handleMissionStart,
-} from "./controllers/mission.controller.js";
+
 import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
@@ -26,6 +10,7 @@ import session from "express-session";
 import passport from "passport";
 import { googleStrategy, kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
+import mainRouter from "./routes/index.js";
 
 dotenv.config();
 
@@ -77,22 +62,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-  console.log(req.user);
-  res.send("Hello World!");
-});
-
-app.post("/api/v1/users/signup", handleUserSignUp);
-app.post("/api/v1/stores", handleStoreAdd);
-app.post("/api/v1/reviews", handleReviewAdd);
-app.post("/api/v1/stores/:storeId/missions", handleMissionAdd);
-app.post("/api/v1/users/missions/start", handleMissionStart);
-app.post("/api/v1/users/missions/complete", handleMissionComplete);
-app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
-app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
-app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
-app.get("/api/v1/users/:userId/missions", handleListUserMissions);
-app.put("/api/v1/users/update", handleUserUpdate);
+app.use("/api/v1", mainRouter);
 
 app.get("/oauth2/login/google", passport.authenticate("google"));
 app.get(
