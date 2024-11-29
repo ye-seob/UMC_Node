@@ -1,6 +1,6 @@
 import express from "express";
-import { handleReviewAdd } from "../controllers/review.controller.js";
+import { handleAddReview } from "../controllers/review.controller.js";
 
 const router = express.Router();
-router.post("/", handleReviewAdd);
+router.post("/", handleAddReview);
 export default router;

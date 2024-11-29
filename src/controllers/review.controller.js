@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { bodyToReview } from "../dtos/review.dto.js";
 import { reviewAdd } from "../services/review.service.js";
 
-export const handleReviewAdd = async (req, res, next) => {
+export const handleAddReview = async (req, res, next) => {
   /*
     #swagger.summary = '리뷰 추가 API';
     #swagger.requestBody = {
@@ -95,6 +95,7 @@ export const handleReviewAdd = async (req, res, next) => {
     const review = await reviewAdd(bodyToReview(req.body));
     res.status(StatusCodes.OK).success(review);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+    console.log(error);
+    next(error);
   }
 };
