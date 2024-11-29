@@ -18,7 +18,6 @@ export const googleStrategy = new GoogleStrategy(
       .catch((err) => cb(err));
   }
 );
-
 const googleVerify = async (profile) => {
   const email = profile.emails?.[0]?.value;
   if (!email) {

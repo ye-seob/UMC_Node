@@ -32,3 +32,15 @@ export const responseFromReviews = (reviews) => {
     },
   };
 };
+export const bodyToUserUpdate = (body) => {
+  return {
+    name: body.name,
+    age: body.age,
+    gender: body.gender,
+    address: body.address || "",
+    detailAddress: body.detailAddress || "",
+    phoneNumber: body.phoneNumber,
+    preferences: body.preferences,
+    point: body.point,
+  };
+};

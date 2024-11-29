@@ -6,6 +6,7 @@ import {
   handleListUserMissions,
   handleListUserReviews,
   handleUserSignUp,
+  handleUserUpdate,
 } from "./controllers/user.controller.js";
 import {
   handleListStoreMissions,
@@ -91,6 +92,8 @@ app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
 app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
 app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
 app.get("/api/v1/users/:userId/missions", handleListUserMissions);
+app.put("/api/v1/users/update", handleUserUpdate);
+
 app.get("/oauth2/login/google", passport.authenticate("google"));
 app.get(
   "/oauth2/callback/google",

@@ -1,9 +1,10 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
+import { bodyToUser, bodyToUserUpdate } from "../dtos/user.dto.js";
 import {
   listUserMissions,
   listUserReviews,
   userSignUp,
+  userUpdate,
 } from "../services/user.service.js";
 
 export const handleUserSignUp = async (req, res, next) => {
@@ -296,6 +297,18 @@ export const handleListUserMissions = async (req, res, next) => {
       typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0
     );
     res.status(StatusCodes.OK).success(missions);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
+  }
+};
+
+export const handleUserUpdate = async (req, res, next) => {
+  console.log("유저 정보 수정을 요청하였습니다.");
+  const email = "jakalob103@gmail.com"; // 추후 jwt 토큰 사용하여 req.user.email로 수정해야하ㅓㅁㄴㄴ
+
+  try {
+    const user = await userUpdate(bodyToUserUpdate(req.body), email);
+    res.status(StatusCodes.OK).success(user);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).error(error);
   }

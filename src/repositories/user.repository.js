@@ -78,3 +78,16 @@ export const getAllUserMissions = async (userId, cursor) => {
 
   return missions;
 };
+
+export const updateUser = async (data, email) => {
+  const user = await prisma.user.findFirst({ where: { email: email } });
+
+  if (!user) {
+    return null;
+  }
+  const updated = await prisma.user.update({
+    where: { email: email },
+    data: data,
+  });
+  return updated.id;
+};
