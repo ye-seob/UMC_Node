@@ -11,6 +11,7 @@ import mainRouter from "./routes/index.js";
 import authRouter from "./routes/auth.route.js";
 
 import { swaggerConfig } from "./swagger.config.js";
+import cors from "cors";
 
 dotenv.config();
 
